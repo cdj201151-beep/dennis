@@ -51,7 +51,7 @@
         /* ===== 主内容 ===== */
         .main-content {
             flex: 1;
-            padding: 16px 16px 80px;
+            padding: 16px 16px 20px;
             max-width: 640px;
             margin: 0 auto;
             width: 100%;
@@ -126,14 +126,42 @@
             line-height: 1.5;
         }
 
-        /* ===== 通用工具样式 ===== */
+        /* ===== 工具面板通用 ===== */
+        .tool-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+        .back-home {
+            background: none;
+            border: none;
+            font-size: 16px;
+            color: #0071e3;
+            cursor: pointer;
+            padding: 4px 8px;
+            border-radius: 8px;
+            transition: background 0.2s;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-shrink: 0;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .back-home:hover {
+            background: #f0f7ff;
+        }
+        .back-home:active {
+            transform: scale(0.95);
+        }
         .tool-title {
-            font-size: 24px;
+            font-size: 22px;
             font-weight: 600;
             color: #1d1d1f;
-            text-align: center;
-            margin-bottom: 24px;
+            flex: 1;
         }
+        /* ===== 通用工具样式 ===== */
         .form-group {
             margin-bottom: 20px;
         }
@@ -310,69 +338,20 @@
         /* ===== Footer ===== */
         .app-footer {
             text-align: center;
-            padding: 12px 16px 4px;
+            padding: 16px 16px 4px;
             color: #86868b;
             font-size: 12px;
             margin-top: 8px;
-        }
-        /* ===== 底部导航（新增“首页”按钮） ===== */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
             border-top: 1px solid #e5e5ea;
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0 env(safe-area-inset-bottom, 8px);
-            z-index: 20;
         }
-        .nav-item {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: none;
-            border: none;
-            padding: 4px 8px;
-            cursor: pointer;
-            font-size: 11px;
-            color: #86868b;
-            transition: color 0.2s;
-            min-width: 48px;
-            -webkit-tap-highlight-color: transparent;
-            position: relative;
+        .app-footer-home {
+            border-top: none;
+            margin-top: 20px;
         }
-        .nav-item .nav-icon {
-            font-size: 20px;
-            line-height: 1.2;
-            margin-bottom: 1px;
-        }
-        .nav-item .nav-label {
-            font-size: 9px;
-            font-weight: 500;
-        }
-        .nav-item.active {
-            color: #0071e3;
-        }
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 30%;
-            right: 30%;
-            height: 2.5px;
-            background: #0071e3;
-            border-radius: 0 0 4px 4px;
-        }
+        /* ===== 响应式 ===== */
         @media (max-width: 420px) {
             .app-header h1 {
                 font-size: 19px;
-            }
-            .nav-item .nav-label {
-                font-size: 8px;
             }
             .home-card .card-title {
                 font-size: 17px;
@@ -390,6 +369,12 @@
             }
             .home-grid {
                 gap: 14px;
+            }
+            .tool-title {
+                font-size: 19px;
+            }
+            .back-home {
+                font-size: 14px;
             }
         }
     </style>
@@ -461,14 +446,17 @@
                     <div class="card-desc">iPhone机型套餐配件折扣查询</div>
                 </button>
             </div>
-            <div class="app-footer">Copyright © 2026 Luohe Inc. 保留所有权利。</div>
+            <div class="app-footer app-footer-home">Copyright © 2026 Luohe Inc. 保留所有权利。</div>
         </div>
 
         <!-- ============================================================ -->
         <!-- 面板1：教育优惠 -->
         <!-- ============================================================ -->
         <div class="page-panel" id="panel-edu">
-            <div class="tool-title">🎓 教育优惠查询</div>
+            <div class="tool-header">
+                <button class="back-home" data-target="panel-home">← 返回首页</button>
+                <div class="tool-title">🎓 教育优惠查询</div>
+            </div>
             <div class="form-group">
                 <label>选择商品</label>
                 <select id="edu-title">
@@ -494,7 +482,10 @@
         <!-- 面板2：教育优惠 + 国补 -->
         <!-- ============================================================ -->
         <div class="page-panel" id="panel-subsidy">
-            <div class="tool-title">🇨🇳 教育优惠 + 国补</div>
+            <div class="tool-header">
+                <button class="back-home" data-target="panel-home">← 返回首页</button>
+                <div class="tool-title">🇨🇳 教育优惠 + 国补</div>
+            </div>
             <div class="form-group">
                 <label>选择商品</label>
                 <select id="sub-title">
@@ -524,7 +515,10 @@
         <!-- 面板3：建行分期计算器 -->
         <!-- ============================================================ -->
         <div class="page-panel" id="panel-installment">
-            <div class="tool-title">💳 建行分期计算器</div>
+            <div class="tool-header">
+                <button class="back-home" data-target="panel-home">← 返回首页</button>
+                <div class="tool-title">💳 建行分期计算器</div>
+            </div>
             <div class="form-group">
                 <label>商品总金额（元）</label>
                 <input id="installment-amount" type="number" placeholder="例：6000" value="6000">
@@ -569,7 +563,10 @@
         <!-- 面板4：6000+活动查询 -->
         <!-- ============================================================ -->
         <div class="page-panel" id="panel-activity">
-            <div class="tool-title">📱 6000+ 活动查询</div>
+            <div class="tool-header">
+                <button class="back-home" data-target="panel-home">← 返回首页</button>
+                <div class="tool-title">📱 6000+ 活动查询</div>
+            </div>
             <div class="form-group">
                 <label>手机型号</label>
                 <select id="act-model">
@@ -611,66 +608,34 @@
 
     </main>
 
-    <!-- ===== 底部导航（增加“首页”按钮） ===== -->
-    <nav class="bottom-nav" id="bottomNav">
-        <button class="nav-item active" data-panel="panel-home">
-            <span class="nav-icon">🏠</span>
-            <span class="nav-label">首页</span>
-        </button>
-        <button class="nav-item" data-panel="panel-edu">
-            <span class="nav-icon">🎓</span>
-            <span class="nav-label">教育优惠</span>
-        </button>
-        <button class="nav-item" data-panel="panel-subsidy">
-            <span class="nav-icon">🇨🇳</span>
-            <span class="nav-label">国补叠加</span>
-        </button>
-        <button class="nav-item" data-panel="panel-installment">
-            <span class="nav-icon">💳</span>
-            <span class="nav-label">分期计算</span>
-        </button>
-        <button class="nav-item" data-panel="panel-activity">
-            <span class="nav-icon">📱</span>
-            <span class="nav-label">6000+活动</span>
-        </button>
-    </nav>
-
     <!-- ===== JavaScript：所有工具逻辑 + PWA 注册 ===== -->
     <script>
         // ================================================================
-        // 0. 面板切换（首页卡片 + 底部导航）
+        // 0. 面板切换（首页卡片 + 返回按钮）
         // ================================================================
-        const navBtns = document.querySelectorAll('.nav-item');
         const homeCards = document.querySelectorAll('.home-card');
+        const backButtons = document.querySelectorAll('.back-home');
         const allPanels = document.querySelectorAll('.page-panel');
 
         function switchPanel(panelId) {
-            // 隐藏所有面板
             allPanels.forEach(p => p.classList.remove('active'));
-            // 显示目标面板
             const target = document.getElementById(panelId);
             if (target) target.classList.add('active');
-
-            // 更新导航高亮
-            navBtns.forEach(btn => {
-                btn.classList.remove('active');
-                if (btn.dataset.panel === panelId) {
-                    btn.classList.add('active');
-                }
-            });
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
-
-        // 底部导航点击
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                const panelId = this.dataset.panel;
-                switchPanel(panelId);
-            });
-        });
 
         // 首页卡片点击
         homeCards.forEach(card => {
             card.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                if (targetId) switchPanel(targetId);
+            });
+        });
+
+        // 返回按钮点击
+        backButtons.forEach(btn => {
+            btn.addEventListener('click', function() {
                 const targetId = this.dataset.target;
                 if (targetId) switchPanel(targetId);
             });
@@ -1513,8 +1478,8 @@
         // ================================================================
         // 7. 初始化：默认显示首页，触发分期计算
         // ================================================================
-        // 默认高亮首页
-        document.querySelector('.nav-item[data-panel="panel-home"]')?.classList.add('active');
+        // 首页默认激活
+        document.getElementById('panel-home')?.classList.add('active');
         setTimeout(runInstallment, 100);
 
         // ================================================================
