@@ -1,11 +1,11 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Apple 价格工具合集</title>
     <!-- PWA 配置 -->
-    <link rel="manifest" href="manifest.json">
+    <link rel="manifest" href="./manifest.json">
     <meta name="theme-color" content="#0071e3">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -73,58 +73,59 @@
                 transform: translateY(0);
             }
         }
-        /* ===== 底部导航 ===== */
-        .bottom-nav {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: rgba(255, 255, 255, 0.94);
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-            border-top: 1px solid #e5e5ea;
-            display: flex;
-            justify-content: space-around;
-            padding: 8px 0 env(safe-area-inset-bottom, 8px);
-            z-index: 20;
+
+        /* ===== 首页四宫格卡片 ===== */
+        .home-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 12px;
         }
-        .nav-item {
+        .home-card {
+            background: #fff;
+            border-radius: 20px;
+            padding: 28px 20px 24px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+            cursor: pointer;
+            transition: all 0.25s ease;
+            text-decoration: none;
+            color: #1d1d1f;
             display: flex;
             flex-direction: column;
-            align-items: center;
-            background: none;
+            align-items: flex-start;
             border: none;
-            padding: 4px 12px;
-            cursor: pointer;
-            font-size: 11px;
-            color: #86868b;
-            transition: color 0.2s;
-            min-width: 56px;
+            text-align: left;
             -webkit-tap-highlight-color: transparent;
-            position: relative;
         }
-        .nav-item .nav-icon {
-            font-size: 22px;
-            line-height: 1.2;
-            margin-bottom: 1px;
+        .home-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
         }
-        .nav-item .nav-label {
-            font-size: 10px;
-            font-weight: 500;
+        .home-card:active {
+            transform: scale(0.97);
         }
-        .nav-item.active {
-            color: #0071e3;
+        .home-card .card-icon {
+            width: 52px;
+            height: 52px;
+            margin-bottom: 16px;
+            flex-shrink: 0;
         }
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: 30%;
-            right: 30%;
-            height: 2.5px;
-            background: #0071e3;
-            border-radius: 0 0 4px 4px;
+        .home-card .card-icon svg {
+            width: 100%;
+            height: 100%;
         }
+        .home-card .card-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #1d1d1f;
+        }
+        .home-card .card-desc {
+            font-size: 14px;
+            color: #86868b;
+            line-height: 1.5;
+        }
+
         /* ===== 通用工具样式 ===== */
         .tool-title {
             font-size: 24px;
@@ -314,16 +315,81 @@
             font-size: 12px;
             margin-top: 8px;
         }
-        /* ===== 响应式微调 ===== */
+        /* ===== 底部导航（新增“首页”按钮） ===== */
+        .bottom-nav {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(255, 255, 255, 0.94);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-top: 1px solid #e5e5ea;
+            display: flex;
+            justify-content: space-around;
+            padding: 8px 0 env(safe-area-inset-bottom, 8px);
+            z-index: 20;
+        }
+        .nav-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: none;
+            border: none;
+            padding: 4px 8px;
+            cursor: pointer;
+            font-size: 11px;
+            color: #86868b;
+            transition: color 0.2s;
+            min-width: 48px;
+            -webkit-tap-highlight-color: transparent;
+            position: relative;
+        }
+        .nav-item .nav-icon {
+            font-size: 20px;
+            line-height: 1.2;
+            margin-bottom: 1px;
+        }
+        .nav-item .nav-label {
+            font-size: 9px;
+            font-weight: 500;
+        }
+        .nav-item.active {
+            color: #0071e3;
+        }
+        .nav-item.active::after {
+            content: '';
+            position: absolute;
+            top: -1px;
+            left: 30%;
+            right: 30%;
+            height: 2.5px;
+            background: #0071e3;
+            border-radius: 0 0 4px 4px;
+        }
         @media (max-width: 420px) {
             .app-header h1 {
                 font-size: 19px;
             }
             .nav-item .nav-label {
-                font-size: 9px;
+                font-size: 8px;
             }
-            .result-item {
-                font-size: 13px;
+            .home-card .card-title {
+                font-size: 17px;
+            }
+            .home-card .card-desc {
+                font-size: 12px;
+            }
+            .home-card .card-icon {
+                width: 44px;
+                height: 44px;
+                margin-bottom: 12px;
+            }
+            .home-card {
+                padding: 20px 16px 18px;
+            }
+            .home-grid {
+                gap: 14px;
             }
         }
     </style>
@@ -340,9 +406,68 @@
     <main class="main-content">
 
         <!-- ============================================================ -->
+        <!-- 面板0：首页（四宫格） -->
+        <!-- ============================================================ -->
+        <div class="page-panel active" id="panel-home">
+            <div class="home-grid">
+                <!-- 卡片1：教育优惠 -->
+                <button class="home-card" data-target="panel-edu">
+                    <span class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 2L2 7l10 5 10-5z"/>
+                            <polyline points="9 12 11 14 15 10"/>
+                        </svg>
+                    </span>
+                    <div class="card-title">教育优惠查询</div>
+                    <div class="card-desc">仅苹果官方教育优惠价格一键查询</div>
+                </button>
+
+                <!-- 卡片2：教育优惠+国补 -->
+                <button class="home-card" data-target="panel-subsidy">
+                    <span class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="6" width="18" height="14" rx="2"/>
+                            <path d="M16 2v4"/>
+                            <path d="M8 2v4"/>
+                            <path d="M3 10h18"/>
+                        </svg>
+                    </span>
+                    <div class="card-title">教育优惠+国补</div>
+                    <div class="card-desc">叠加国家补贴双重价格计算工具</div>
+                </button>
+
+                <!-- 卡片3：建行分期计算器 -->
+                <button class="home-card" data-target="panel-installment">
+                    <span class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#0070C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2z"/>
+                            <polyline points="4 10 20 10"/>
+                        </svg>
+                    </span>
+                    <div class="card-title">建行分期计算器</div>
+                    <div class="card-desc">建行满减分期最优方案自动计算</div>
+                </button>
+
+                <!-- 卡片4：6000+活动查询 -->
+                <button class="home-card" data-target="panel-activity">
+                    <span class="card-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="12" y1="8" x2="12" y2="12"/>
+                            <line x1="12" y1="16" x2="12.01" y2="16"/>
+                        </svg>
+                    </span>
+                    <div class="card-title">6000+活动查询</div>
+                    <div class="card-desc">iPhone机型套餐配件折扣查询</div>
+                </button>
+            </div>
+            <div class="app-footer">Copyright © 2026 Luohe Inc. 保留所有权利。</div>
+        </div>
+
+        <!-- ============================================================ -->
         <!-- 面板1：教育优惠 -->
         <!-- ============================================================ -->
-        <div class="page-panel active" id="panel-edu">
+        <div class="page-panel" id="panel-edu">
             <div class="tool-title">🎓 教育优惠查询</div>
             <div class="form-group">
                 <label>选择商品</label>
@@ -465,10 +590,10 @@
                 <label>套餐情况</label>
                 <select id="act-package" disabled>
                     <option value="">请先选择机型</option>
-                    <option value="pkgACS">45W充电头299+钢化膜199+手机壳199+ACS399</option>
-                    <option value="pkgACS_299">45W充电头299+钢化膜199+手机壳299+ACS399</option>
-                    <option value="pkgC50i_199">45W充电头299+钢化膜199+手机壳199+C50i339</option>
-                    <option value="pkgC50i_299">45W充电头299+钢化膜199+手机壳299+C50i339</option>
+                    <option value="pkgACS">45W充电头+199钢化膜+199手机壳+ACS</option>
+                    <option value="pkgACS_299">45W充电头+199钢化膜+299手机壳+ACS</option>
+                    <option value="pkgC50i_199">45W充电头+199钢化膜+199手机壳+C50i</option>
+                    <option value="pkgC50i_299">45W充电头+199钢化膜+299手机壳+C50i</option>
                 </select>
             </div>
             <div class="result-card" id="act-result">
@@ -486,9 +611,13 @@
 
     </main>
 
-    <!-- ===== 底部导航 ===== -->
+    <!-- ===== 底部导航（增加“首页”按钮） ===== -->
     <nav class="bottom-nav" id="bottomNav">
-        <button class="nav-item active" data-panel="panel-edu">
+        <button class="nav-item active" data-panel="panel-home">
+            <span class="nav-icon">🏠</span>
+            <span class="nav-label">首页</span>
+        </button>
+        <button class="nav-item" data-panel="panel-edu">
             <span class="nav-icon">🎓</span>
             <span class="nav-label">教育优惠</span>
         </button>
@@ -508,6 +637,45 @@
 
     <!-- ===== JavaScript：所有工具逻辑 + PWA 注册 ===== -->
     <script>
+        // ================================================================
+        // 0. 面板切换（首页卡片 + 底部导航）
+        // ================================================================
+        const navBtns = document.querySelectorAll('.nav-item');
+        const homeCards = document.querySelectorAll('.home-card');
+        const allPanels = document.querySelectorAll('.page-panel');
+
+        function switchPanel(panelId) {
+            // 隐藏所有面板
+            allPanels.forEach(p => p.classList.remove('active'));
+            // 显示目标面板
+            const target = document.getElementById(panelId);
+            if (target) target.classList.add('active');
+
+            // 更新导航高亮
+            navBtns.forEach(btn => {
+                btn.classList.remove('active');
+                if (btn.dataset.panel === panelId) {
+                    btn.classList.add('active');
+                }
+            });
+        }
+
+        // 底部导航点击
+        navBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const panelId = this.dataset.panel;
+                switchPanel(panelId);
+            });
+        });
+
+        // 首页卡片点击
+        homeCards.forEach(card => {
+            card.addEventListener('click', function() {
+                const targetId = this.dataset.target;
+                if (targetId) switchPanel(targetId);
+            });
+        });
+
         // ================================================================
         // 1. 全局数据 —— 完整商品数据（含国补字段）
         // ================================================================
@@ -1103,29 +1271,7 @@
         }
 
         // ================================================================
-        // 3. 面板切换
-        // ================================================================
-        const navBtns = document.querySelectorAll('.nav-item');
-        const panels = {
-            edu: document.getElementById('panel-edu'),
-            subsidy: document.getElementById('panel-subsidy'),
-            installment: document.getElementById('panel-installment'),
-            activity: document.getElementById('panel-activity')
-        };
-
-        navBtns.forEach(btn => {
-            btn.addEventListener('click', function() {
-                navBtns.forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-                const targetId = this.dataset.panel;
-                Object.values(panels).forEach(p => p.classList.remove('active'));
-                const targetPanel = document.getElementById(targetId);
-                if (targetPanel) targetPanel.classList.add('active');
-            });
-        });
-
-        // ================================================================
-        // 4. 教育优惠面板 (panel-edu)
+        // 3. 教育优惠面板 (panel-edu)
         // ================================================================
         const eduTitle = document.getElementById('edu-title');
         const eduSpec = document.getElementById('edu-spec');
@@ -1153,7 +1299,7 @@
         });
 
         // ================================================================
-        // 5. 国补面板 (panel-subsidy)
+        // 4. 国补面板 (panel-subsidy)
         // ================================================================
         const subTitle = document.getElementById('sub-title');
         const subSpec = document.getElementById('sub-spec');
@@ -1187,7 +1333,7 @@
         });
 
         // ================================================================
-        // 6. 分期计算器 (panel-installment)
+        // 5. 分期计算器 (panel-installment)
         // ================================================================
         const INSTALLMENT_DATA = [
             { p: 1000, discount: 66, q3: 14.57, q3_per: 4.86, q6: 21.86, q6_per: 3.64 },
@@ -1295,7 +1441,7 @@
         document.getElementById('calc-installment').addEventListener('click', runInstallment);
 
         // ================================================================
-        // 7. 6000+活动 (panel-activity)
+        // 6. 6000+活动 (panel-activity)
         // ================================================================
         const ACTIVITY_DATA = {
             "apple17_512": { name: "苹果 17 512G", money: 7999, platform: 7199.1, pos: 799.9,
@@ -1365,19 +1511,21 @@
         });
 
         // ================================================================
-        // 8. 初始化：默认选中教育优惠面板，触发分期计算
+        // 7. 初始化：默认显示首页，触发分期计算
         // ================================================================
-        document.querySelector('.nav-item[data-panel="panel-edu"]')?.classList.add('active');
+        // 默认高亮首页
+        document.querySelector('.nav-item[data-panel="panel-home"]')?.classList.add('active');
         setTimeout(runInstallment, 100);
 
         // ================================================================
-        // 9. PWA: 注册 Service Worker
+        // 8. PWA: 注册 Service Worker（使用相对路径）
         // ================================================================
         if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('/sw.js')
+            navigator.serviceWorker.register('./sw.js')
                 .then(() => console.log('✅ Service Worker 注册成功'))
                 .catch(err => console.log('❌ Service Worker 注册失败', err));
         }
     </script>
+
 </body>
 </html>
