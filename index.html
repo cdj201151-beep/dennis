@@ -11,7 +11,7 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="apple-touch-icon" href="data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 192 192'%3E%3Crect width='192' height='192' rx='40' fill='%230071e3'/%3E%3Cpath d='M96 45 L45 96 L96 147 L147 96 L96 45 Z' fill='white' opacity='0.2'/%3E%3Ctext x='96' y='135' font-family='-apple-system, BlinkMacSystemFont, sans-serif' font-size='105' font-weight='700' fill='white' text-anchor='middle'%3EA%3C/text%3E%3C/svg%3E">
     <style>
-        /* ===== 全局重置 & 基础 ===== */
+        /* ===== 全局重置 ===== */
         * {
             margin: 0;
             padding: 0;
@@ -27,7 +27,7 @@
         /* ===== 顶栏 ===== */
         .app-header {
             background: #ffffff;
-            padding: 16px 20px 12px;
+            padding: 20px 20px 14px;
             text-align: center;
             border-bottom: 1px solid #e5e5ea;
             position: sticky;
@@ -38,21 +38,21 @@
             background: rgba(255, 255, 255, 0.92);
         }
         .app-header h1 {
-            font-size: 22px;
+            font-size: 28px;
             font-weight: 600;
             color: #1d1d1f;
-            letter-spacing: -0.3px;
+            letter-spacing: -0.5px;
         }
         .app-header .sub {
             font-size: 13px;
             color: #86868b;
-            margin-top: 2px;
+            margin-top: 4px;
         }
         /* ===== 主内容 ===== */
         .main-content {
             flex: 1;
-            padding: 16px 16px 20px;
-            max-width: 640px;
+            padding: 24px 16px 20px;
+            max-width: 700px;
             margin: 0 auto;
             width: 100%;
         }
@@ -64,27 +64,21 @@
             display: block;
         }
         @keyframes fadeUp {
-            0% {
-                opacity: 0;
-                transform: translateY(12px);
-            }
-            100% {
-                opacity: 1;
-                transform: translateY(0);
-            }
+            0% { opacity: 0; transform: translateY(10px); }
+            100% { opacity: 1; transform: translateY(0); }
         }
 
-        /* ===== 首页四宫格卡片 ===== */
+        /* ===== 首页网格卡片（紧凑风格） ===== */
         .home-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin-top: 12px;
+            gap: 16px;
+            margin-top: 4px;
         }
         .home-card {
             background: #fff;
-            border-radius: 20px;
-            padding: 28px 20px 24px;
+            border-radius: 18px;
+            padding: 22px 18px 20px;
             box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
             cursor: pointer;
             transition: all 0.25s ease;
@@ -98,16 +92,16 @@
             -webkit-tap-highlight-color: transparent;
         }
         .home-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.10);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
         }
         .home-card:active {
             transform: scale(0.97);
         }
         .home-card .card-icon {
-            width: 52px;
-            height: 52px;
-            margin-bottom: 16px;
+            width: 46px;
+            height: 46px;
+            margin-bottom: 14px;
             flex-shrink: 0;
         }
         .home-card .card-icon svg {
@@ -115,13 +109,14 @@
             height: 100%;
         }
         .home-card .card-title {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: 600;
-            margin-bottom: 6px;
+            margin-bottom: 4px;
             color: #1d1d1f;
+            line-height: 1.3;
         }
         .home-card .card-desc {
-            font-size: 14px;
+            font-size: 13px;
             color: #86868b;
             line-height: 1.5;
         }
@@ -130,16 +125,16 @@
         .tool-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
             margin-bottom: 20px;
         }
         .back-home {
             background: none;
             border: none;
-            font-size: 16px;
+            font-size: 15px;
             color: #0071e3;
             cursor: pointer;
-            padding: 4px 8px;
+            padding: 4px 10px;
             border-radius: 8px;
             transition: background 0.2s;
             font-weight: 500;
@@ -161,9 +156,10 @@
             color: #1d1d1f;
             flex: 1;
         }
-        /* ===== 通用工具样式 ===== */
+
+        /* ===== 表单控件 ===== */
         .form-group {
-            margin-bottom: 20px;
+            margin-bottom: 18px;
         }
         .form-group label {
             display: block;
@@ -201,31 +197,13 @@
         .form-group input:focus {
             border-color: #0071e3;
         }
-        .btn-primary {
-            width: 100%;
-            padding: 15px;
-            background: #0071e3;
-            color: #fff;
-            border: none;
-            border-radius: 12px;
-            font-size: 17px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: background 0.2s;
-            margin-top: 4px;
-        }
-        .btn-primary:hover {
-            background: #005bb5;
-        }
-        .btn-primary:active {
-            transform: scale(0.98);
-        }
-        /* ===== 结果卡片 ===== */
+
+        /* ===== 结果卡片（通用） ===== */
         .result-card {
             background: #fff;
             border-radius: 16px;
             padding: 20px 24px;
-            margin-top: 24px;
+            margin-top: 20px;
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
             display: none;
         }
@@ -272,109 +250,104 @@
             margin-top: 6px;
             border-top: 1px dashed #e5e5ea;
         }
-        /* ===== 分期计算器专用 ===== */
-        .table-wrap {
-            overflow-x: auto;
-            margin: 12px 0 16px;
+
+        /* ===== 分期计算器专用结果 ===== */
+        .inst-result-item {
+            padding: 10px 0;
+            font-size: 17px;
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid #f2f2f7;
         }
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 13px;
-            min-width: 480px;
+        .inst-result-item:last-child {
+            border-bottom: none;
         }
-        th,
-        td {
-            border: 1px solid #e2e8f0;
-            padding: 8px 6px;
-            text-align: center;
+        .inst-result-item .label {
+            color: #86868b;
         }
-        th {
-            background: #e8f2ff;
-            color: #004c99;
+        .inst-result-item .value {
+            font-weight: 500;
+            color: #1d1d1f;
+        }
+        .inst-result-item .value.red {
+            color: #ff3b30;
             font-weight: 600;
         }
-        .res-box {
-            background: #f5faff;
-            border-left: 4px solid #0071e3;
-            padding: 16px 18px;
-            border-radius: 8px;
-            margin-top: 16px;
-            display: none;
-        }
-        .res-box.show {
-            display: block;
-        }
-        .scheme-item {
-            background: #edf4ff;
-            padding: 8px 12px;
-            margin: 4px 0;
-            border-radius: 6px;
-            font-size: 14px;
-        }
-        .best-tag {
-            background: #ff7d00;
-            color: #fff;
-            padding: 1px 10px;
-            border-radius: 12px;
-            font-size: 11px;
-            margin-left: 6px;
+        .inst-result-item .value.green {
+            color: #34c759;
             font-weight: 600;
         }
-        .stat-line {
-            margin: 6px 0;
-            font-size: 15px;
-        }
-        .stat-line .low {
-            color: #2e7d32;
+        .inst-result-item .value.blue {
+            color: #0071e3;
             font-weight: 600;
         }
-        .tip-text {
-            font-size: 13px;
-            color: #d93025;
-            margin: 6px 0 0;
-            line-height: 1.5;
-        }
+
         /* ===== Footer ===== */
         .app-footer {
             text-align: center;
-            padding: 16px 16px 4px;
+            padding: 18px 16px 4px;
             color: #86868b;
-            font-size: 12px;
-            margin-top: 8px;
+            font-size: 13px;
+            margin-top: 16px;
             border-top: 1px solid #e5e5ea;
         }
         .app-footer-home {
             border-top: none;
             margin-top: 20px;
         }
+
         /* ===== 响应式 ===== */
-        @media (max-width: 420px) {
-            .app-header h1 {
-                font-size: 19px;
+        @media (max-width: 500px) {
+            .home-grid {
+                gap: 12px;
+            }
+            .home-card {
+                padding: 18px 14px 16px;
+                border-radius: 16px;
+            }
+            .home-card .card-icon {
+                width: 38px;
+                height: 38px;
+                margin-bottom: 10px;
             }
             .home-card .card-title {
-                font-size: 17px;
+                font-size: 15px;
             }
             .home-card .card-desc {
                 font-size: 12px;
             }
-            .home-card .card-icon {
-                width: 44px;
-                height: 44px;
-                margin-bottom: 12px;
-            }
-            .home-card {
-                padding: 20px 16px 18px;
-            }
-            .home-grid {
-                gap: 14px;
+            .app-header h1 {
+                font-size: 22px;
             }
             .tool-title {
-                font-size: 19px;
+                font-size: 18px;
             }
             .back-home {
-                font-size: 14px;
+                font-size: 13px;
+                padding: 3px 8px;
+            }
+            .inst-result-item {
+                font-size: 15px;
+                padding: 8px 0;
+            }
+        }
+        @media (max-width: 380px) {
+            .home-grid {
+                gap: 10px;
+            }
+            .home-card {
+                padding: 14px 12px 12px;
+            }
+            .home-card .card-icon {
+                width: 32px;
+                height: 32px;
+                margin-bottom: 8px;
+            }
+            .home-card .card-title {
+                font-size: 13px;
+            }
+            .home-card .card-desc {
+                font-size: 11px;
             }
         }
     </style>
@@ -383,19 +356,19 @@
 
     <!-- ===== 顶栏 ===== -->
     <header class="app-header">
-        <h1>价格工具合集</h1>
-        <div class="sub"></div>
+        <h1>🍎 Apple 价格工具合集</h1>
+        <div class="sub">教育优惠 · 国补 · 分期 · 活动</div>
     </header>
 
     <!-- ===== 主内容 ===== -->
     <main class="main-content">
 
         <!-- ============================================================ -->
-        <!-- 面板0：首页（四宫格） -->
+        <!-- 面板0：首页（两列紧凑网格） -->
         <!-- ============================================================ -->
         <div class="page-panel active" id="panel-home">
             <div class="home-grid">
-                <!-- 卡片1：教育优惠 -->
+                <!-- 卡片1 -->
                 <button class="home-card" data-target="panel-edu">
                     <span class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -404,10 +377,10 @@
                         </svg>
                     </span>
                     <div class="card-title">教育优惠查询</div>
-                    <div class="card-desc">教育优惠价格查询</div>
+                    <div class="card-desc">仅苹果官方教育优惠价格一键查询</div>
                 </button>
 
-                <!-- 卡片2：教育优惠+国补 -->
+                <!-- 卡片2 -->
                 <button class="home-card" data-target="panel-subsidy">
                     <span class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#34c759" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -418,10 +391,10 @@
                         </svg>
                     </span>
                     <div class="card-title">教育优惠+国补</div>
-                    <div class="card-desc">教育优惠叠加国家补贴价格查询</div>
+                    <div class="card-desc">叠加国家补贴双重价格计算工具</div>
                 </button>
 
-                <!-- 卡片3：建行分期计算器 -->
+                <!-- 卡片3 -->
                 <button class="home-card" data-target="panel-installment">
                     <span class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#0070C9" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -430,10 +403,10 @@
                         </svg>
                     </span>
                     <div class="card-title">建行分期计算器</div>
-                    <div class="card-desc">建行分期满减最优方案自动计算</div>
+                    <div class="card-desc">建行满减分期最优方案自动计算</div>
                 </button>
 
-                <!-- 卡片4：6000+活动查询 -->
+                <!-- 卡片4 -->
                 <button class="home-card" data-target="panel-activity">
                     <span class="card-icon">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#f97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -508,11 +481,11 @@
                 <div class="result-item"><span class="result-label">优惠后价格</span><span class="result-value highlight" id="sub-final">-</span></div>
                 <div class="result-item"><span class="result-label">优惠后（国补叠加）</span><span class="result-value subsidy" id="sub-final-subsidy">-</span></div>
             </div>
-            <div class="app-footer">Copyright © 2026 Luohe Inc. 保留所有权利。</div>
+            <div class="app-footer">Copyright © 2026 Luohe Inc. 数据来源：Apple 教育优惠 &amp; 国家补贴政策（2026.06）</div>
         </div>
 
         <!-- ============================================================ -->
-        <!-- 面板3：建行分期计算器 -->
+        <!-- 面板3：建行分期计算器（新版简洁风格） -->
         <!-- ============================================================ -->
         <div class="page-panel" id="panel-installment">
             <div class="tool-header">
@@ -520,43 +493,43 @@
                 <div class="tool-title">💳 建行分期计算器</div>
             </div>
             <div class="form-group">
-                <label>商品总金额（元）</label>
-                <input id="installment-amount" type="number" placeholder="例：6000" value="6000">
-                <div class="tip-text">✅ 先享满减优惠，再算分期利息；提前还款仅付已出期利息，剩余全免</div>
+                <label>分期金额</label>
+                <select id="inst-amount">
+                    <option value="">请选择分期金额</option>
+                    <option value="1000">1000 元</option>
+                    <option value="2000">2000 元</option>
+                    <option value="2500">2500 元</option>
+                    <option value="3000">3000 元</option>
+                    <option value="3500">3500 元</option>
+                    <option value="4000">4000 元</option>
+                    <option value="5000">5000 元</option>
+                    <option value="6000">6000 元</option>
+                    <option value="7000">7000 元</option>
+                    <option value="7500">7500 元</option>
+                    <option value="8000">8000 元</option>
+                    <option value="8500">8500 元</option>
+                    <option value="9000">9000 元</option>
+                    <option value="10000">10000 元</option>
+                </select>
             </div>
-            <button class="btn-primary" id="calc-installment">一键计算最优分期搭配</button>
-
-            <div class="table-wrap">
-                <table>
-                    <thead><tr><th>分期本金</th><th>立减优惠</th><th>3期总利息</th><th>3期每期</th><th>6期总利息</th><th>6期每期</th></tr></thead>
-                    <tbody>
-                        <tr><td>1000</td><td>66</td><td>14.57</td><td>4.86</td><td>21.86</td><td>3.64</td></tr>
-                        <tr><td>2000</td><td>136</td><td>29.08</td><td>9.69</td><td>43.62</td><td>7.27</td></tr>
-                        <tr><td>2500</td><td>166</td><td>36.41</td><td>12.14</td><td>54.62</td><td>9.10</td></tr>
-                        <tr><td>3000</td><td>206</td><td>43.59</td><td>14.53</td><td>65.38</td><td>10.90</td></tr>
-                        <tr><td>3500</td><td>236</td><td>50.92</td><td>16.97</td><td>76.38</td><td>12.73</td></tr>
-                        <tr><td>4000</td><td>276</td><td>58.09</td><td>19.36</td><td>87.14</td><td>14.52</td></tr>
-                        <tr><td>5000</td><td>346</td><td>72.60</td><td>24.20</td><td>108.90</td><td>18.15</td></tr>
-                    </tbody>
-                </table>
+            <div class="form-group">
+                <label>分期期数</label>
+                <select id="inst-period" disabled>
+                    <option value="">请先选择金额</option>
+                    <option value="3">3 期</option>
+                    <option value="6">6 期</option>
+                </select>
             </div>
-
-            <div class="res-box" id="installment-result">
-                <h3 style="font-size:17px;">🏆 综合最优省钱方案 <span class="best-tag">全场最低成本</span></h3>
-                <div id="best-scheme"></div>
-                <hr style="margin:12px 0;border:none;border-top:1px solid #cce0ff;">
-                <div style="margin:8px 0;"><strong>🏆 分3期</strong> <span id="rank3-list" style="font-weight:400;font-size:14px;"></span></div>
-                <div style="margin:8px 0;"><strong>🏆 分6期</strong> <span id="rank6-list" style="font-weight:400;font-size:14px;"></span></div>
-                <hr style="margin:12px 0;border:none;border-top:1px solid #cce0ff;">
-                <div class="stat-line">目标金额：<span id="inst-target"></span> 元</div>
-                <div class="stat-line">组合总本金：<span id="inst-sumP"></span> 元</div>
-                <div class="stat-line" style="color:#ff3d00;font-weight:600;">累计满减优惠：<span id="inst-sumDiscount"></span> 元</div>
-                <div class="stat-line">优惠后实际本金：<span id="inst-realP"></span> 元</div>
-                <div class="stat-line">全部结清总利息：<span id="inst-sumI"></span> 元</div>
-                <div class="stat-line low">还1期提前结清利息：<span id="inst-onePay"></span> 元</div>
-                <div class="stat-line">综合费率：<span id="inst-rate"></span></div>
+            <div class="result-card" id="inst-result">
+                <div class="inst-result-item"><span class="label">目标金额</span><span class="value blue" id="inst-target">0</span></div>
+                <div class="inst-result-item"><span class="label">组合总本金</span><span class="value" id="inst-total">0</span></div>
+                <div class="inst-result-item"><span class="label">累计满减优惠</span><span class="value red" id="inst-discount">0</span></div>
+                <div class="inst-result-item"><span class="label">优惠后实际本金</span><span class="value" id="inst-real">0.00</span></div>
+                <div class="inst-result-item"><span class="label">全部结清总利息</span><span class="value" id="inst-interest">0.00</span></div>
+                <div class="inst-result-item"><span class="label">还1期提前结清利息</span><span class="value green" id="inst-pre">0.00</span></div>
+                <div class="inst-result-item"><span class="label">综合费率</span><span class="value blue" id="inst-rate">0.00%</span></div>
             </div>
-            <div class="app-footer">Copyright © 2026 Luohe Inc. 保留所有权利。</div>
+            <div class="app-footer">Copyright © 2026 Luohe Inc.</div>
         </div>
 
         <!-- ============================================================ -->
@@ -587,10 +560,10 @@
                 <label>套餐情况</label>
                 <select id="act-package" disabled>
                     <option value="">请先选择机型</option>
-                    <option value="pkgACS">45W充电头299+钢化膜199+手机壳199+ACS399</option>
-                    <option value="pkgACS_299">45W充电头299+钢化膜199+手机壳299+ACS399</option>
-                    <option value="pkgC50i_199">45W充电头299+钢化膜199+手机壳199+C50i339</option>
-                    <option value="pkgC50i_299">45W充电头299+钢化膜199+手机壳199+C50i339</option>
+                    <option value="pkgACS">45W充电头+199钢化膜+199手机壳+ACS</option>
+                    <option value="pkgACS_299">45W充电头+199钢化膜+299手机壳+ACS</option>
+                    <option value="pkgC50i_199">45W充电头+199钢化膜+199手机壳+C50i</option>
+                    <option value="pkgC50i_299">45W充电头+199钢化膜+299手机壳+C50i</option>
                 </select>
             </div>
             <div class="result-card" id="act-result">
@@ -603,15 +576,15 @@
                 <div class="result-item"><span class="result-label">配件折扣</span><span class="result-value discount" id="act-discount">-</span></div>
                 <div class="result-item"><span class="result-label">对应钢化膜单价</span><span class="result-value highlight" id="act-glass">-</span></div>
             </div>
-            <div class="app-footer">Copyright © 2026 Luohe Inc. 保留所有权利。</div>
+            <div class="app-footer">Copyright © 2026 Dennis Luohe Inc.</div>
         </div>
 
     </main>
 
-    <!-- ===== JavaScript：所有工具逻辑 + PWA 注册 ===== -->
+    <!-- ===== JavaScript ===== -->
     <script>
         // ================================================================
-        // 0. 面板切换（首页卡片 + 返回按钮）
+        // 0. 面板切换
         // ================================================================
         const homeCards = document.querySelectorAll('.home-card');
         const backButtons = document.querySelectorAll('.back-home');
@@ -621,11 +594,9 @@
             allPanels.forEach(p => p.classList.remove('active'));
             const target = document.getElementById(panelId);
             if (target) target.classList.add('active');
-            // 滚动到顶部
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // 首页卡片点击
         homeCards.forEach(card => {
             card.addEventListener('click', function() {
                 const targetId = this.dataset.target;
@@ -633,7 +604,6 @@
             });
         });
 
-        // 返回按钮点击
         backButtons.forEach(btn => {
             btn.addEventListener('click', function() {
                 const targetId = this.dataset.target;
@@ -642,7 +612,7 @@
         });
 
         // ================================================================
-        // 1. 全局数据 —— 完整商品数据（含国补字段）
+        // 1. 商品数据（教育优惠 + 国补）
         // ================================================================
         const PRODUCT_DATA = {
             "Apple Pencil (USB-C）": [
@@ -1206,7 +1176,7 @@
         };
 
         // ================================================================
-        // 2. 工具函数：填充下拉
+        // 2. 工具函数
         // ================================================================
         function populateTitles(selectEl) {
             const titles = Object.keys(PRODUCT_DATA);
@@ -1236,7 +1206,7 @@
         }
 
         // ================================================================
-        // 3. 教育优惠面板 (panel-edu)
+        // 3. 教育优惠
         // ================================================================
         const eduTitle = document.getElementById('edu-title');
         const eduSpec = document.getElementById('edu-spec');
@@ -1264,7 +1234,7 @@
         });
 
         // ================================================================
-        // 4. 国补面板 (panel-subsidy)
+        // 4. 国补
         // ================================================================
         const subTitle = document.getElementById('sub-title');
         const subSpec = document.getElementById('sub-spec');
@@ -1298,115 +1268,80 @@
         });
 
         // ================================================================
-        // 5. 分期计算器 (panel-installment)
+        // 5. 建行分期计算器（新版简洁风格）
         // ================================================================
-        const INSTALLMENT_DATA = [
-            { p: 1000, discount: 66, q3: 14.57, q3_per: 4.86, q6: 21.86, q6_per: 3.64 },
-            { p: 2000, discount: 136, q3: 29.08, q3_per: 9.69, q6: 43.62, q6_per: 7.27 },
-            { p: 2500, discount: 166, q3: 36.41, q3_per: 12.14, q6: 54.62, q6_per: 9.10 },
-            { p: 3000, discount: 206, q3: 43.59, q3_per: 14.53, q6: 65.38, q6_per: 10.90 },
-            { p: 3500, discount: 236, q3: 50.92, q3_per: 16.97, q6: 76.38, q6_per: 12.73 },
-            { p: 4000, discount: 276, q3: 58.09, q3_per: 19.36, q6: 87.14, q6_per: 14.52 },
-            { p: 5000, discount: 346, q3: 72.60, q3_per: 24.20, q6: 108.90, q6_per: 18.15 }
-        ];
+        const instAmount = document.getElementById('inst-amount');
+        const instPeriod = document.getElementById('inst-period');
+        const instResult = document.getElementById('inst-result');
 
-        function getCombos(target, periodKey) {
-            const results = [];
-            const is3 = periodKey === 'q3';
-            const totalKey = is3 ? 'q3' : 'q6';
-            const perKey = is3 ? 'q3_per' : 'q6_per';
+        // 基准档位数据
+        const baseTable = {
+            1000: { discount: 66, interest3: 14.57, per3: 4.86, interest6: 21.86, per6: 3.64 },
+            2000: { discount: 136, interest3: 29.08, per3: 9.69, interest6: 43.62, per6: 7.27 },
+            2500: { discount: 166, interest3: 36.41, per3: 12.14, interest6: 54.62, per6: 9.10 },
+            3000: { discount: 206, interest3: 43.59, per3: 14.53, interest6: 65.38, per6: 10.90 },
+            3500: { discount: 236, interest3: 50.92, per3: 16.97, interest6: 76.38, per6: 12.73 },
+            4000: { discount: 276, interest3: 58.09, per3: 19.36, interest6: 87.14, per6: 14.52 },
+            5000: { discount: 346, interest3: 72.60, per3: 24.20, interest6: 108.90, per6: 18.15 }
+        };
 
-            function backtrack(idx, arr, sumP, sumI, sumPer, sumDis) {
-                if (sumP >= target) {
-                    results.push({
-                        list: [...arr],
-                        totalP: sumP,
-                        totalDiscount: sumDis,
-                        totalInterest: sumI,
-                        totalPerInterest: sumPer,
-                        period: is3 ? '3期' : '6期'
-                    });
-                    return;
-                }
-                for (let i = idx; i < INSTALLMENT_DATA.length; i++) {
-                    const item = INSTALLMENT_DATA[i];
-                    arr.push(item);
-                    backtrack(i, arr,
-                        sumP + item.p,
-                        sumI + item[totalKey],
-                        sumPer + item[perKey],
-                        sumDis + item.discount
-                    );
-                    arr.pop();
+        function combineCalculate(targetAmount) {
+            const priority = [5000, 4000, 3500, 3000, 2500, 2000, 1000];
+            let remain = targetAmount;
+            let totalCapital = 0;
+            let totalDiscount = 0;
+            let sumInterest3 = 0;
+            let sumInterest6 = 0;
+            while (remain > 0) {
+                for (let money of priority) {
+                    if (remain >= money) {
+                        totalCapital += money;
+                        totalDiscount += baseTable[money].discount;
+                        sumInterest3 += baseTable[money].interest3;
+                        sumInterest6 += baseTable[money].interest6;
+                        remain -= money;
+                        break;
+                    }
                 }
             }
-            backtrack(0, [], 0, 0, 0, 0);
-            results.sort((a, b) => {
-                const diffA = Math.abs(a.totalP - target);
-                const diffB = Math.abs(b.totalP - target);
-                if (diffA !== diffB) return diffA - diffB;
-                return (a.totalInterest - a.totalDiscount) - (b.totalInterest - b.totalDiscount);
-            });
-            return results;
+            return { totalCapital, totalDiscount, sumInterest3, sumInterest6 };
         }
 
-        function renderScheme(comb) {
-            let html = '';
-            comb.list.forEach(item => {
-                const totalI = comb.period === '3期' ? item.q3 : item.q6;
-                const perI = comb.period === '3期' ? item.q3_per : item.q6_per;
-                html += `<div class="scheme-item">👉 ${item.p}元 分${comb.period}，立减${item.discount}元，总利息${totalI}元，每期利息${perI}元</div>`;
-            });
-            return html;
-        }
-
-        function runInstallment() {
-            const target = parseInt(document.getElementById('installment-amount').value) || 6000;
-            const list3 = getCombos(target, 'q3');
-            const list6 = getCombos(target, 'q6');
-
-            const candidates = [];
-            if (list3.length) candidates.push(list3[0]);
-            if (list6.length) candidates.push(list6[0]);
-            candidates.sort((a, b) => {
-                const diffA = Math.abs(a.totalP - target);
-                const diffB = Math.abs(b.totalP - target);
-                if (diffA !== diffB) return diffA - diffB;
-                return (a.totalInterest - a.totalDiscount) - (b.totalInterest - b.totalDiscount);
-            });
-            const best = candidates[0] || list3[0] || list6[0];
-
-            if (!best) {
-                document.getElementById('installment-result').classList.remove('show');
-                return;
+        instAmount.addEventListener('change', function() {
+            instPeriod.value = '';
+            instPeriod.disabled = true;
+            instPeriod.options[0].text = '请先选择金额';
+            instResult.classList.remove('show');
+            if (this.value) {
+                instPeriod.disabled = false;
+                instPeriod.options[0].text = '请选择分期期数';
             }
+        });
 
-            document.getElementById('best-scheme').innerHTML = renderScheme(best);
+        instPeriod.addEventListener('change', function() {
+            const target = Number(instAmount.value);
+            const period = Number(this.value);
+            if (!target || !period) return;
+
+            const res = combineCalculate(target);
+            const realCapital = (res.totalCapital - res.totalDiscount).toFixed(2);
+            const totalInterest = period === 3 ? res.sumInterest3 : res.sumInterest6;
+            const firstInterest = period === 3 ? res.sumInterest3 / 3 : res.sumInterest6 / 6;
+            const rate = ((totalInterest / res.totalCapital) * 100).toFixed(2);
+
             document.getElementById('inst-target').textContent = target;
-            document.getElementById('inst-sumP').textContent = best.totalP;
-            document.getElementById('inst-sumDiscount').textContent = best.totalDiscount;
-            document.getElementById('inst-realP').textContent = (best.totalP - best.totalDiscount).toFixed(2);
-            document.getElementById('inst-sumI').textContent = best.totalInterest.toFixed(2);
-            document.getElementById('inst-onePay').textContent = best.totalPerInterest.toFixed(2);
-            const rate = (best.totalInterest / best.totalP * 100).toFixed(2);
+            document.getElementById('inst-total').textContent = res.totalCapital;
+            document.getElementById('inst-discount').textContent = res.totalDiscount;
+            document.getElementById('inst-real').textContent = realCapital;
+            document.getElementById('inst-interest').textContent = totalInterest.toFixed(2);
+            document.getElementById('inst-pre').textContent = firstInterest.toFixed(2);
             document.getElementById('inst-rate').textContent = rate + '%';
 
-            const rank3 = list3.length ? list3[0] : null;
-            const rank6 = list6.length ? list6[0] : null;
-            document.getElementById('rank3-list').textContent = rank3 ?
-                `第1名：${rank3.list.map(x=>x.p).join('+')} (合计${rank3.totalP}元，净优惠${(rank3.totalDiscount-rank3.totalInterest).toFixed(2)}元)` :
-                '无';
-            document.getElementById('rank6-list').textContent = rank6 ?
-                `第1名：${rank6.list.map(x=>x.p).join('+')} (合计${rank6.totalP}元，净优惠${(rank6.totalDiscount-rank6.totalInterest).toFixed(2)}元)` :
-                '无';
-
-            document.getElementById('installment-result').classList.add('show');
-        }
-
-        document.getElementById('calc-installment').addEventListener('click', runInstallment);
+            instResult.classList.add('show');
+        });
 
         // ================================================================
-        // 6. 6000+活动 (panel-activity)
+        // 6. 6000+活动
         // ================================================================
         const ACTIVITY_DATA = {
             "apple17_512": { name: "苹果 17 512G", money: 7999, platform: 7199.1, pos: 799.9,
@@ -1476,14 +1411,12 @@
         });
 
         // ================================================================
-        // 7. 初始化：默认显示首页，触发分期计算
+        // 7. 初始化
         // ================================================================
-        // 首页默认激活
         document.getElementById('panel-home')?.classList.add('active');
-        setTimeout(runInstallment, 100);
 
         // ================================================================
-        // 8. PWA: 注册 Service Worker（使用相对路径）
+        // 8. PWA
         // ================================================================
         if ('serviceWorker' in navigator) {
             navigator.serviceWorker.register('./sw.js')
