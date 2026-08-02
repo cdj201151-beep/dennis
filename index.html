@@ -560,10 +560,12 @@
                 <label>套餐情况</label>
                 <select id="act-package" disabled>
                     <option value="">请先选择机型</option>
-                    <option value="pkgACS">45W充电头+199钢化膜+199手机壳+ACS</option>
-                    <option value="pkgACS_299">45W充电头+199钢化膜+299手机壳+ACS</option>
-                    <option value="pkgC50i_199">45W充电头+199钢化膜+199手机壳+C50i</option>
-                    <option value="pkgC50i_299">45W充电头+199钢化膜+299手机壳+C50i</option>
+                    <option value="pkgJTM">45W充电头299+199钢化膜+199手机壳+镜头膜149</option>
+                    <option value="pkgJTM299">45W充电头299+199钢化膜+299手机壳+镜头膜149</option>
+                    <option value="pkgACS">45W充电头299+钢化膜199+手机壳199+ACS399</option>
+                    <option value="pkgACS_299">45W充电头299+钢化膜199+手机壳299+ACS399</option>
+                    <option value="pkgC50i_199">45W充电头299+钢化膜199+手机壳199+C50i399</option>
+                    <option value="pkgC50i_299">45W充电头299+钢化膜199+手机壳299+C50i399</option>
                 </select>
             </div>
             <div class="result-card" id="act-result">
@@ -574,7 +576,7 @@
                 <div class="result-item"><span class="result-label">POS支付</span><span class="result-value" id="act-pos">-</span></div>
                 <div class="section-title">🎁 博远录单</div>
                 <div class="result-item"><span class="result-label">配件折扣</span><span class="result-value discount" id="act-discount">-</span></div>
-                <div class="result-item"><span class="result-label">对应钢化膜单价</span><span class="result-value highlight" id="act-glass">-</span></div>
+                <div class="result-item"><span class="result-label">对应钢化膜/镜头膜单价</span><span class="result-value highlight" id="act-glass">-</span></div>
             </div>
             <div class="app-footer">Copyright © 2026 Dennis Luohe Inc.</div>
         </div>
@@ -1345,9 +1347,11 @@
         // ================================================================
         const ACTIVITY_DATA = {
             "apple17_512": { name: "苹果 17 512G", money: 7999, platform: 7199.1, pos: 799.9,
+                pkgJTM: { discount: 9.46, glass: 140.55 }, pkgJTM299: { discount: 8.46, glass: 125.65 },
                 pkgACS: { discount: 7.3, glass: 145.09 }, pkgC50i_199: { discount: 7.72, glass: 153.73 },
                 pkgC50i_299: { discount: 7.04, glass: 140.24 }, pkgACS_299: { discount: 6.68, glass: 133.91 } },
             "appleAir_512": { name: "苹果 Air 512G", money: 7999, platform: 7199.1, pos: 799.9,
+                pkgJTM: { discount: 9.46, glass: 140.55 }, pkgJTM299: { discount: 8.46, glass: 125.65 },
                 pkgACS: { discount: 7.3, glass: 145.09 }, pkgC50i_199: { discount: 7.72, glass: 153.73 },
                 pkgC50i_299: { discount: 7.04, glass: 140.24 }, pkgACS_299: { discount: 6.68, glass: 133.91 } },
             "apple17Pro_256": { name: "苹果 17 Pro 256G", money: 8399, platform: 7559.1, pos: 839.9,
