@@ -1514,7 +1514,7 @@
                 const discountRate = pkg.discount; // 例如 7.3
                 const acsDiscounted = 399 * (1 - discountRate / 100);
                 const acsDiscountedFixed = acsDiscounted.toFixed(2);
-                actAcsPrice.textContent = '399（折扣后 ' + acsDiscountedFixed + '）';
+                actAcsPrice.textContent = '¥' + acsDiscountedFixed;
                 actAcs.style.display = 'flex';
             } else {
                 actAcs.style.display = 'none';
