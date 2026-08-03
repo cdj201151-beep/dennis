@@ -64,8 +64,14 @@
             display: block;
         }
         @keyframes fadeUp {
-            0% { opacity: 0; transform: translateY(10px); }
-            100% { opacity: 1; transform: translateY(0); }
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* ===== 首页网格卡片（紧凑风格） ===== */
@@ -533,7 +539,7 @@
         </div>
 
         <!-- ============================================================ -->
-        <!-- 面板4：6000+活动查询 -->
+        <!-- 面板4：6000+活动查询（优化版） -->
         <!-- ============================================================ -->
         <div class="page-panel" id="panel-activity">
             <div class="tool-header">
@@ -560,12 +566,6 @@
                 <label>套餐情况</label>
                 <select id="act-package" disabled>
                     <option value="">请先选择机型</option>
-                    <option value="pkgJTM">45W充电头299+199钢化膜+199手机壳+镜头膜149</option>
-                    <option value="pkgJTM299">45W充电头299+199钢化膜+299手机壳+镜头膜149</option>
-                    <option value="pkgACS">45W充电头299+钢化膜199+手机壳199+ACS399</option>
-                    <option value="pkgACS_299">45W充电头299+钢化膜199+手机壳299+ACS399</option>
-                    <option value="pkgC50i_199">45W充电头299+钢化膜199+手机壳199+C50i399</option>
-                    <option value="pkgC50i_299">45W充电头299+钢化膜199+手机壳299+C50i399</option>
                 </select>
             </div>
             <div class="result-card" id="act-result">
@@ -576,6 +576,11 @@
                 <div class="result-item"><span class="result-label">POS支付</span><span class="result-value" id="act-pos">-</span></div>
                 <div class="section-title">🎁 博远录单</div>
                 <div class="result-item"><span class="result-label">配件折扣</span><span class="result-value discount" id="act-discount">-</span></div>
+                <!-- ★ 新增 ACS 单价行，默认隐藏，仅 ACS 套餐显示 -->
+                <div class="result-item" id="act-acs" style="display:none;">
+                    <span class="result-label">ACS 单价</span>
+                    <span class="result-value highlight" id="act-acs-price">-</span>
+                </div>
                 <div class="result-item"><span class="result-label">对应钢化膜/镜头膜单价</span><span class="result-value highlight" id="act-glass">-</span></div>
             </div>
             <div class="app-footer">Copyright © 2026 Luohe Inc. 保留所有权利。</div>
@@ -619,11 +624,11 @@
         const PRODUCT_DATA = {
             "Apple Pencil (USB-C）": [
                 { "商品规格": "-", "型号": "MUWA3CH/A", "官网价": 649, "官网价国补": "", "教育优惠": 80, "优惠后": 569,
-                "教育优惠国补": "" }
+                    "教育优惠国补": "" }
             ],
             "Apple Pencil Pro": [
                 { "商品规格": "-", "型号": "MX2D3CH/A", "官网价": 999, "官网价国补": "", "教育优惠": 100, "优惠后": 899,
-                "教育优惠国补": "" }
+                    "教育优惠国补": "" }
             ],
             "适用于 iPad （第十代）的妙控键盘双面夹": [
                 { "商品规格": "-", "型号": "MQDP3CH/A", "官网价": 1999, "官网价国补": "", "教育优惠": 180, "优惠后": 1819,
@@ -1261,7 +1266,7 @@
             subModel.textContent = opt.dataset['型号'] || '-';
             subOriginal.textContent = opt.dataset['官网价'] ? '¥' + Number(opt.dataset['官网价']).toLocaleString() : '-';
             subOriginalSubsidy.textContent = opt.dataset['官网价国补'] ? '¥' + Number(opt.dataset['官网价国补'])
-            .toLocaleString() : '-';
+                .toLocaleString() : '-';
             subDiscount.textContent = opt.dataset['教育优惠'] ? '¥' + Number(opt.dataset['教育优惠']).toLocaleString() : '-';
             subFinal.textContent = opt.dataset['优惠后'] ? '¥' + Number(opt.dataset['优惠后']).toLocaleString() : '-';
             subFinalSubsidy.textContent = opt.dataset['教育优惠国补'] ? '¥' + Number(opt.dataset['教育优惠国补'])
@@ -1343,41 +1348,77 @@
         });
 
         // ================================================================
-        // 6. 6000+活动
+        // 6. 6000+活动（优化版）
         // ================================================================
+        // 套餐定义
+        const PACKAGE_DEFS = {
+            pkgJTM: { label: '45W充电头299+199钢化膜+199手机壳+镜头膜149', hasLens: true, hasACS: false },
+            pkgJTM299: { label: '45W充电头299+199钢化膜+299手机壳+镜头膜149', hasLens: true, hasACS: false },
+            pkgACS: { label: '45W充电头299+钢化膜199+手机壳199+ACS399', hasLens: false, hasACS: true },
+            pkgACS_299: { label: '45W充电头299+钢化膜199+手机壳299+ACS399', hasLens: false, hasACS: true },
+            pkgC50i_199: { label: '45W充电头299+钢化膜199+手机壳199+C50i399', hasLens: false, hasACS: false },
+            pkgC50i_299: { label: '45W充电头299+钢化膜199+手机壳299+C50i399', hasLens: false, hasACS: false }
+        };
+        // 套餐ID列表（按顺序）
+        const PACKAGE_IDS = ['pkgJTM', 'pkgJTM299', 'pkgACS', 'pkgACS_299', 'pkgC50i_199', 'pkgC50i_299'];
+        // 需要保留全部6种的型号（苹果17 512G 和 苹果Air 512G）
+        const FULL_PACKAGE_MODELS = ['apple17_512', 'appleAir_512'];
+
         const ACTIVITY_DATA = {
             "apple17_512": { name: "苹果 17 512G", money: 7999, platform: 7199.1, pos: 799.9,
-                pkgJTM: { discount: 9.46, glass: 140.55 }, pkgJTM299: { discount: 8.46, glass: 125.65 },
-                pkgACS: { discount: 7.3, glass: 145.09 }, pkgC50i_199: { discount: 7.72, glass: 153.73 },
-                pkgC50i_299: { discount: 7.04, glass: 140.24 }, pkgACS_299: { discount: 6.68, glass: 133.91 } },
+                pkgJTM: { discount: 9.46, glass: 140.55 },
+                pkgJTM299: { discount: 8.46, glass: 125.65 },
+                pkgACS: { discount: 7.3, glass: 145.09 },
+                pkgACS_299: { discount: 6.68, glass: 133.91 },
+                pkgC50i_199: { discount: 7.72, glass: 153.73 },
+                pkgC50i_299: { discount: 7.04, glass: 140.24 } },
             "appleAir_512": { name: "苹果 Air 512G", money: 7999, platform: 7199.1, pos: 799.9,
-                pkgJTM: { discount: 9.46, glass: 140.55 }, pkgJTM299: { discount: 8.46, glass: 125.65 },
-                pkgACS: { discount: 7.3, glass: 145.09 }, pkgC50i_199: { discount: 7.72, glass: 153.73 },
-                pkgC50i_299: { discount: 7.04, glass: 140.24 }, pkgACS_299: { discount: 6.68, glass: 133.91 } },
+                pkgJTM: { discount: 9.46, glass: 140.55 },
+                pkgJTM299: { discount: 8.46, glass: 125.65 },
+                pkgACS: { discount: 7.3, glass: 145.09 },
+                pkgACS_299: { discount: 6.68, glass: 133.91 },
+                pkgC50i_199: { discount: 7.72, glass: 153.73 },
+                pkgC50i_299: { discount: 7.04, glass: 140.24 } },
             "apple17Pro_256": { name: "苹果 17 Pro 256G", money: 8399, platform: 7559.1, pos: 839.9,
-                pkgACS: { discount: 7.66, glass: 152.81 }, pkgC50i_199: { discount: 8.10, glass: 161.93 },
-                pkgC50i_299: { discount: 7.39, glass: 147.46 }, pkgACS_299: { discount: 7.02, glass: 140.00 } },
+                pkgACS: { discount: 7.66, glass: 152.81 },
+                pkgC50i_199: { discount: 8.10, glass: 161.93 },
+                pkgC50i_299: { discount: 7.39, glass: 147.46 },
+                pkgACS_299: { discount: 7.02, glass: 140.00 } },
             "apple17ProMax_256": { name: "苹果 17 Pro Max 256G", money: 9449, platform: 8504.1, pos: 944.9,
-                pkgACS: { discount: 8.62, glass: 171.68 }, pkgC50i_199: { discount: 9.12, glass: 181.55 },
-                pkgC50i_299: { discount: 8.31, glass: 166.25 }, pkgACS_299: { discount: 7.90, glass: 157.27 } },
+                pkgACS: { discount: 8.62, glass: 171.68 },
+                pkgC50i_199: { discount: 9.12, glass: 181.55 },
+                pkgC50i_299: { discount: 8.31, glass: 166.25 },
+                pkgACS_299: { discount: 7.90, glass: 157.27 } },
             "appleAir_1TB": { name: "苹果 Air 1TB", money: 9999, platform: 8999.1, pos: 999.9,
-                pkgACS: { discount: 9.12, glass: 181.83 }, pkgC50i_199: { discount: 9.65, glass: 192.18 },
-                pkgC50i_299: { discount: 8.80, glass: 175.34 }, pkgACS_299: { discount: 8.36, glass: 166.42 } },
+                pkgACS: { discount: 9.12, glass: 181.83 },
+                pkgC50i_199: { discount: 9.65, glass: 192.18 },
+                pkgC50i_299: { discount: 8.80, glass: 175.34 },
+                pkgACS_299: { discount: 8.36, glass: 166.42 } },
             "apple17Pro_512": { name: "苹果 17 Pro 512G", money: 10499, platform: 9499, pos: 1000,
-                pkgACS: { discount: 9.12, glass: 181.93 }, pkgC50i_199: { discount: 9.65, glass: 192.28 },
-                pkgC50i_299: { discount: 8.80, glass: 175.44 }, pkgACS_299: { discount: 8.36, glass: 166.52 } },
+                pkgACS: { discount: 9.12, glass: 181.93 },
+                pkgC50i_199: { discount: 9.65, glass: 192.28 },
+                pkgC50i_299: { discount: 8.80, glass: 175.44 },
+                pkgACS_299: { discount: 8.36, glass: 166.52 } },
             "apple17ProMax_512": { name: "苹果 17 Pro Max 512G", money: 11499, platform: 10499, pos: 1000,
-                pkgACS: { discount: 9.12, glass: 181.93 }, pkgC50i_199: { discount: 9.65, glass: 192.28 },
-                pkgC50i_299: { discount: 8.80, glass: 175.44 }, pkgACS_299: { discount: 8.36, glass: 166.52 } },
+                pkgACS: { discount: 9.12, glass: 181.93 },
+                pkgC50i_199: { discount: 9.65, glass: 192.28 },
+                pkgC50i_299: { discount: 8.80, glass: 175.44 },
+                pkgACS_299: { discount: 8.36, glass: 166.52 } },
             "apple17Pro_1TB": { name: "苹果 17 Pro 1TB", money: 12499, platform: 11499, pos: 1000,
-                pkgACS: { discount: 9.12, glass: 181.93 }, pkgC50i_199: { discount: 9.65, glass: 192.28 },
-                pkgC50i_299: { discount: 8.80, glass: 175.44 }, pkgACS_299: { discount: 8.36, glass: 166.52 } },
+                pkgACS: { discount: 9.12, glass: 181.93 },
+                pkgC50i_199: { discount: 9.65, glass: 192.28 },
+                pkgC50i_299: { discount: 8.80, glass: 175.44 },
+                pkgACS_299: { discount: 8.36, glass: 166.52 } },
             "apple17ProMax_1TB": { name: "苹果 17 Pro Max 1TB", money: 13499, platform: 12499, pos: 1000,
-                pkgACS: { discount: 9.12, glass: 181.93 }, pkgC50i_199: { discount: 9.65, glass: 192.28 },
-                pkgC50i_299: { discount: 8.80, glass: 175.44 }, pkgACS_299: { discount: 8.36, glass: 166.52 } },
+                pkgACS: { discount: 9.12, glass: 181.93 },
+                pkgC50i_199: { discount: 9.65, glass: 192.28 },
+                pkgC50i_299: { discount: 8.80, glass: 175.44 },
+                pkgACS_299: { discount: 8.36, glass: 166.52 } },
             "apple17ProMax_2TB": { name: "苹果 17 Pro Max 2TB", money: 17499, platform: 16499, pos: 1000,
-                pkgACS: { discount: 9.12, glass: 181.93 }, pkgC50i_199: { discount: 9.65, glass: 192.28 },
-                pkgC50i_299: { discount: 8.80, glass: 175.44 }, pkgACS_299: { discount: 8.36, glass: 166.52 } }
+                pkgACS: { discount: 9.12, glass: 181.93 },
+                pkgC50i_199: { discount: 9.65, glass: 192.28 },
+                pkgC50i_299: { discount: 8.80, glass: 175.44 },
+                pkgACS_299: { discount: 8.36, glass: 166.52 } }
         };
 
         const actModel = document.getElementById('act-model');
@@ -1389,30 +1430,102 @@
         const actPos = document.getElementById('act-pos');
         const actDiscount = document.getElementById('act-discount');
         const actGlass = document.getElementById('act-glass');
+        // ★ ACS 相关元素
+        const actAcs = document.getElementById('act-acs');
+        const actAcsPrice = document.getElementById('act-acs-price');
 
+        /**
+         * 根据手机型号获取可用的套餐ID列表
+         */
+        function getAvailablePackageIds(modelId) {
+            if (FULL_PACKAGE_MODELS.includes(modelId)) {
+                // 苹果17 512G 和 苹果Air 512G 保留全部6种
+                return PACKAGE_IDS;
+            } else {
+                // 其他型号排除包含镜头膜的套餐（pkgJTM, pkgJTM299）
+                return PACKAGE_IDS.filter(id => !PACKAGE_DEFS[id].hasLens);
+            }
+        }
+
+        /**
+         * 填充套餐下拉列表
+         */
+        function populatePackages(modelId) {
+            const pkgIds = getAvailablePackageIds(modelId);
+            actPackage.innerHTML = '';
+            if (pkgIds.length === 0) {
+                const opt = document.createElement('option');
+                opt.value = '';
+                opt.textContent = '无可选套餐';
+                actPackage.appendChild(opt);
+                actPackage.disabled = true;
+                return;
+            }
+            const placeholder = document.createElement('option');
+            placeholder.value = '';
+            placeholder.textContent = '请选择套餐';
+            actPackage.appendChild(placeholder);
+            pkgIds.forEach(id => {
+                const opt = document.createElement('option');
+                opt.value = id;
+                opt.textContent = PACKAGE_DEFS[id].label;
+                actPackage.appendChild(opt);
+            });
+            actPackage.disabled = false;
+        }
+
+        // 手机型号变更时，重置套餐并清空结果
         actModel.addEventListener('change', function() {
+            const mid = this.value;
             actResult.classList.remove('show');
-            actPackage.value = '';
-            actPackage.disabled = !this.value;
+            if (!mid) {
+                actPackage.innerHTML = '<option value="">请先选择机型</option>';
+                actPackage.disabled = true;
+                return;
+            }
+            populatePackages(mid);
         });
 
+        // 套餐变更时，显示结果
         actPackage.addEventListener('change', function() {
             const mid = actModel.value;
             const pid = this.value;
-            if (!mid || !pid) { actResult.classList.remove('show'); return; }
+            if (!mid || !pid) {
+                actResult.classList.remove('show');
+                return;
+            }
             const data = ACTIVITY_DATA[mid];
             if (!data) return;
             const pkg = data[pid];
             if (!pkg) return;
 
+            // 基础信息
             actName.textContent = data.name;
             actMoney.textContent = '¥' + data.money.toLocaleString();
             actPlatform.textContent = '¥' + data.platform;
             actPos.textContent = '¥' + data.pos;
             actDiscount.textContent = pkg.discount;
             actGlass.textContent = '¥' + pkg.glass;
+
+            // ★ 处理 ACS 单价显示
+            const isACS = PACKAGE_DEFS[pid] && PACKAGE_DEFS[pid].hasACS;
+            if (isACS) {
+                // 计算 ACS 折扣后价格：399 * (1 - discount/100)，四舍五入保留两位小数
+                const discountRate = pkg.discount; // 例如 7.3
+                const acsDiscounted = 399 * (1 - discountRate / 100);
+                const acsDiscountedFixed = acsDiscounted.toFixed(2);
+                actAcsPrice.textContent = '399（折扣后 ' + acsDiscountedFixed + '）';
+                actAcs.style.display = 'flex';
+            } else {
+                actAcs.style.display = 'none';
+            }
+
             actResult.classList.add('show');
         });
+
+        // 初始化套餐下拉（默认禁用）
+        actPackage.innerHTML = '<option value="">请先选择机型</option>';
+        actPackage.disabled = true;
 
         // ================================================================
         // 7. 初始化
