@@ -1510,9 +1510,9 @@
             // ★ 处理 ACS 单价显示
             const isACS = PACKAGE_DEFS[pid] && PACKAGE_DEFS[pid].hasACS;
             if (isACS) {
-                // 计算 ACS 折扣后价格：399 * (1 - discount/100)，四舍五入保留两位小数
+                // 计算 ACS 折扣后价格：399 * (discount/10)，四舍五入保留两位小数
                 const discountRate = pkg.discount; // 例如 7.3
-                const acsDiscounted = 399 * (1 - discountRate / 100);
+                const acsDiscounted = 399 * (discountRate / 10);
                 const acsDiscountedFixed = acsDiscounted.toFixed(2);
                 actAcsPrice.textContent = '¥' + acsDiscountedFixed;
                 actAcs.style.display = 'flex';
